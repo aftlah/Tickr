@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-32 py-20 relative overflow-hidden">
+    <div className="flex flex-col gap-32 pb-20 relative overflow-hidden">
       {/* Decorative background blur */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[120px] -z-10 animate-[float_8s_ease-in-out_infinite]" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-secondary/10 rounded-full blur-[120px] -z-10 animate-[float_10s_ease-in-out_infinite_reverse]" />

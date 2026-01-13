@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function TickrCard({ 
   title, 
   value, 
@@ -62,9 +64,16 @@ export default function TickrCard({
       </div>
 
       <div className="mt-4 flex gap-2 z-10 pt-4 border-t border-foreground/5">
-        <button className="flex-1 py-2 rounded-lg bg-foreground/5 hover:bg-foreground/10 text-xs font-semibold transition-colors">
+        <Link 
+          href={`/asset/${symbol}`} 
+          className="flex-1 py-2 rounded-lg bg-foreground/5 hover:bg-foreground/10 text-xs font-semibold transition-colors text-center flex items-center justify-center gap-1"
+        >
           Analysis
-        </button>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </Link>
         <button className="px-3 py-2 rounded-lg border border-foreground/10 hover:border-foreground/20 text-xs font-semibold transition-colors">
           ★
         </button>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Tickr | Smart Market Intelligence",
@@ -22,23 +23,24 @@ export default function RootLayout({
               Tickr<span className="text-brand-primary text-3xl leading-none">.</span>
             </h1>
             <div className="flex gap-8 font-medium text-sm text-foreground/70">
-              <a href="/" className="hover:text-brand-primary transition-colors relative group">
+
+              <Link href="/" className="hover:text-brand-primary transition-colors relative group">
                 Home
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full" />
-              </a>
-              <a href="/dashboard" className="hover:text-brand-primary transition-colors relative group">
+              </Link>
+              <Link href="/dashboard" className="hover:text-brand-primary transition-colors relative group">
                 Dashboard
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full" />
-              </a>
-              <a href="/watchlist" className="hover:text-brand-primary transition-colors relative group">
+              </Link>
+              <Link href="/watchlist" className="hover:text-brand-primary transition-colors relative group">
                 Watchlist
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full" />
-              </a>
+              </Link>
             </div>
           </div>
         </nav>
 
-        <main className="container mx-auto p-4 md:p-8 pt-32">
+        <main className="container mx-auto px-4 lg:pt-40 pt-32">
           {children}
         </main>
         

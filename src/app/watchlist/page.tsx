@@ -15,7 +15,7 @@ export default function WatchlistPage() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-12 py-8 relative">
+    <div className="flex flex-col gap-12 pb-8 relative">
        {/* Background decoration */}
        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none -z-10" />
 
