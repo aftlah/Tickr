@@ -2,8 +2,26 @@ import { getAssetDetail } from "@/lib/api";
 import AssetChart from "@/components/AssetChart";
 import Link from "next/link";
 
-export default async function AssetDetailPage({ params }: { params: { symbol: string } }) {
-  const { symbol } = params;
+export default async function AssetDetailPage({ params }: { params: Promise<{ symbol: string }> }) {
+  const { symbol } = await params;
+
+  if (!symbol || symbol === "undefined" || symbol === "UNDEFINED" || symbol === "null") {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 text-center">
+        <div className="w-20 h-20 rounded-full bg-foreground/5 flex items-center justify-center mb-2">
+          <span className="text-4xl opacity-30">?</span>
+        </div>
+        <h1 className="text-4xl font-bold tracking-tight">Asset Not Found</h1>
+        <p className="text-foreground/60 max-w-md">
+          The requested asset identifier is invalid or could not be retrieved from the market data stream.
+        </p>
+        <Link href="/dashboard" className="premium-btn bg-brand-primary text-white px-8 py-4 shadow-xl shadow-brand-primary/20 hover:brightness-110 mt-4">
+          Return to Terminal
+        </Link>
+      </div>
+    );
+  }
+
   const data = await getAssetDetail(symbol);
   
   // Use fetched data if available, otherwise fallback to safe default

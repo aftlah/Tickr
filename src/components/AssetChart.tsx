@@ -1,18 +1,40 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, AreaChart } from 'recharts';
-
-const data = [
-  { name: '10:00', price: 4000 },
-  { name: '11:00', price: 3000 },
-  { name: '12:00', price: 3500 },
-  { name: '13:00', price: 2780 },
-  { name: '14:00', price: 2890 },
-  { name: '15:00', price: 3390 },
-  { name: '16:00', price: 3490 },
-];
+import { getAssetHistory } from '@/lib/api';
 
 export default function AssetChart({ symbol }: { symbol: string }) {
+  const [data, setData] = useState<any[]>([]);
+  const [period, setPeriod] = useState("1D");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchData() {
+      setLoading(true);
+      setError(null);
+      try {
+        const history = await getAssetHistory(symbol, period);
+        if (isMounted) {
+          setData(history);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError("Failed to load chart data");
+          console.error(err);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+    fetchData();
+    return () => { isMounted = false; };
+  }, [symbol, period]);
+
   return (
     <div className="h-[450px] w-full premium-card p-8 flex flex-col">
       <div className="flex justify-between items-start mb-8">
@@ -22,15 +44,41 @@ export default function AssetChart({ symbol }: { symbol: string }) {
         </div>
         <div className="flex gap-1 bg-foreground/5 p-1 rounded-xl border border-foreground/5">
           {['1D', '1W', '1M', '1Y', 'ALL'].map((t) => (
-             <button key={t} className={`text-[10px] font-bold px-4 py-2 rounded-lg transition-all ${t === '1D' ? 'bg-background shadow-sm text-foreground' : 'text-foreground/40 hover:text-foreground hover:bg-foreground/5'}`}>
+             <button 
+               key={t} 
+               onClick={() => setPeriod(t)}
+               className={`text-[10px] font-bold px-4 py-2 rounded-lg transition-all ${t === period ? 'bg-background shadow-sm text-foreground' : 'text-foreground/40 hover:text-foreground hover:bg-foreground/5'}`}
+             >
                 {t}
              </button>
           ))}
         </div>
       </div>
 
-      <div className="flex-1 w-full min-h-0">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="flex-1 w-full min-h-0 relative">
+        {loading && (
+             <div className="absolute inset-0 flex items-center justify-center bg-background/5 backdrop-blur-[1px] z-10 rounded-xl">
+                <div className="w-6 h-6 border-2 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+             </div>
+        )}
+        
+        {error ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-0">
+             <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center mb-3">
+               <svg className="w-6 h-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+               </svg>
+             </div>
+             <p className="text-sm font-medium text-red-500 mb-2">{error}</p>
+             <button 
+               onClick={() => window.location.reload()}
+               className="text-xs bg-foreground/5 hover:bg-foreground/10 text-foreground px-4 py-2 rounded-lg transition-colors"
+             >
+               Retry
+             </button>
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
@@ -77,6 +125,7 @@ export default function AssetChart({ symbol }: { symbol: string }) {
             />
           </AreaChart>
         </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
