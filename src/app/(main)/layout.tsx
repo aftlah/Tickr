@@ -1,10 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
+  const isActive = (path: string) => pathname === path;
+
   return (
     <>
         <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50">
@@ -13,17 +20,17 @@ export default function MainLayout({
               Tickr<span className="text-brand-primary text-3xl leading-none">.</span>
             </Link>
             <div className="flex gap-8 font-medium text-sm text-foreground/70">
-              <Link href="/" className="hover:text-brand-primary transition-colors relative group">
+              <Link href="/" className={`hover:text-brand-primary transition-colors relative group ${isActive('/') ? 'text-brand-primary' : ''}`}>
                 Home
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full" />
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-brand-primary transition-all ${isActive('/') ? 'w-full' : 'w-0 group-hover:w-full'}`} />
               </Link>
-              <Link href="/dashboard" className="hover:text-brand-primary transition-colors relative group">
+              <Link href="/dashboard" className={`hover:text-brand-primary transition-colors relative group ${isActive('/dashboard') ? 'text-brand-primary' : ''}`}>
                 Dashboard
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full" />
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-brand-primary transition-all ${isActive('/dashboard') ? 'w-full' : 'w-0 group-hover:w-full'}`} />
               </Link>
-              <Link href="/watchlist" className="hover:text-brand-primary transition-colors relative group">
+              <Link href="/watchlist" className={`hover:text-brand-primary transition-colors relative group ${isActive('/watchlist') ? 'text-brand-primary' : ''}`}>
                 Watchlist
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full" />
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-brand-primary transition-all ${isActive('/watchlist') ? 'w-full' : 'w-0 group-hover:w-full'}`} />
               </Link>
             </div>
           </div>
