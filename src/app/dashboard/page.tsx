@@ -72,7 +72,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex flex-col gap-12 py-8 relative">
+    <div className="flex flex-col gap-12 py-8 relative lg:py-32">
        {/* Background decoration */}
        <div className="fixed top-20 right-20 w-96 h-96 bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -z-10" />
        <div className="fixed bottom-20 left-20 w-96 h-96 bg-brand-secondary/5 rounded-full blur-[100px] pointer-events-none -z-10" />
