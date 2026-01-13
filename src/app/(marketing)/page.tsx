@@ -11,26 +11,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
       </div>
 
-      {/* Ticker Tape */}
-      <div className="w-full bg-background/50 backdrop-blur-sm border-b border-foreground/5 py-2 overflow-hidden flex z-20">
-        <div className="flex animate-scroll whitespace-nowrap gap-8 hover:[animation-play-state:paused]">
-          {[...Array(2)].map((_, i) => (
-             <div key={i} className="flex gap-8 items-center">
-                {["BTC +2.4%", "ETH +1.8%", "NVDA +4.2%", "TSLA -1.2%", "AAPL +0.5%", "GOOGL +1.1%", "MSFT +0.8%", "AMZN +2.1%", "SOL +5.4%", "XRP +0.9%"].map((item, j) => {
-                  const [symbol, change] = item.split(" ");
-                  const isPositive = change.startsWith("+");
-                  return (
-                    <div key={j} className="flex items-center gap-2 text-xs font-mono font-bold">
-                      <span className="text-foreground/70">{symbol}</span>
-                      <span className={isPositive ? "text-brand-primary" : "text-brand-accent"}>{change}</span>
-                    </div>
-                  );
-                })}
-             </div>
-          ))}
-        </div>
-      </div>
-
       <main className="flex-1 flex flex-col items-center">
         {/* Hero Section */}
         <section className="flex flex-col items-center text-center pt-20 pb-32 px-4 max-w-7xl mx-auto w-full relative z-10">
