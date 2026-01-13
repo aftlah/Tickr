@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getCryptoPrices, getUSStocks, getIndoStocks } from "@/lib/api";
 import TickrCard from "@/components/TickrCard";
+import MarketStatus from "@/components/MarketStatus";
 
 export default function DashboardPage() {
   const [cryptoData, setCryptoData] = useState<any[]>([]);
@@ -77,23 +78,45 @@ export default function DashboardPage() {
        <div className="fixed top-20 right-20 w-96 h-96 bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -z-10" />
        <div className="fixed bottom-20 left-20 w-96 h-96 bg-brand-secondary/5 rounded-full blur-[100px] pointer-events-none -z-10" />
 
-      <header className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 pb-8 border-b border-foreground/5">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-6xl font-bold tracking-tighter">Terminal<span className="text-brand-primary">.</span></h1>
-          <p className="font-medium text-foreground/50 text-lg max-w-lg leading-relaxed">
-            Real-time cross-market analysis. Monitoring global assets with millisecond precision.
-          </p>
+      <header className="flex flex-col gap-8 pb-8 border-b border-foreground/5">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-6xl font-bold tracking-tighter">Terminal<span className="text-brand-primary">.</span></h1>
+            <p className="font-medium text-foreground/50 text-lg max-w-lg leading-relaxed">
+              Real-time cross-market analysis. Monitoring global assets with millisecond precision.
+            </p>
+          </div>
+          
+          <div className="w-full lg:w-auto flex flex-col items-end gap-4">
+            {/* Search Bar Visual */}
+            <div className="relative group w-full lg:w-80">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="h-4 w-4 text-foreground/40 group-focus-within:text-brand-primary transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <input 
+                type="text" 
+                className="block w-full pl-10 pr-3 py-2.5 border border-foreground/10 rounded-xl leading-5 bg-foreground/5 text-foreground placeholder-foreground/40 focus:outline-none focus:bg-background focus:ring-1 focus:ring-brand-primary focus:border-brand-primary sm:text-sm transition-all" 
+                placeholder="Search assets (e.g. BTC, AAPL)..." 
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <span className="text-foreground/20 text-xs font-mono border border-foreground/10 rounded px-1.5 py-0.5">/</span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2 text-xs font-medium text-foreground/40">
+               <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
+               System Operational
+               <span className="mx-2">|</span>
+               v2.4.0-stable
+            </div>
+          </div>
         </div>
-        
-        <div className="flex flex-wrap items-center gap-4">
-           <div className="premium-card !p-3 !rounded-xl flex items-center gap-3 bg-background/50">
-              <div className="w-2 h-2 rounded-full bg-brand-primary animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-              <span className="text-xs font-bold uppercase tracking-widest opacity-60">System Operational</span>
-           </div>
-           <div className="premium-card !p-3 !rounded-xl flex items-center gap-3 bg-background/50">
-              <span className="text-xs font-bold opacity-40">UTC</span>
-              <span className="text-xs font-mono font-bold">{new Date().toISOString().split('T')[0]}</span>
-           </div>
+
+        {/* Global Market Status Widget */}
+        <div className="mt-4">
+           <MarketStatus />
         </div>
       </header>
 
