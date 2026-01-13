@@ -55,17 +55,17 @@ export default function MarketStatus() {
         });
 
         return (
-          <div key={market.city} className="premium-card p-4 flex flex-col justify-between group hover:bg-foreground/5 transition-colors">
+          <div key={market.city} className="premium-card p-4 flex flex-col justify-between group hover:bg-foreground/5 transition-all duration-300 border border-foreground/5 hover:border-foreground/10 bg-gradient-to-br from-background/50 to-background/80 backdrop-blur-xl hover:shadow-lg hover:shadow-brand-primary/5 hover:-translate-y-0.5">
             <div className="flex justify-between items-start">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">{market.region}</span>
-              <div className={`w-2 h-2 rounded-full ${dot}`} />
+              <span className="text-[10px] font-black uppercase tracking-widest text-foreground/40 group-hover:text-foreground/60 transition-colors">{market.region}</span>
+              <div className={`w-2 h-2 rounded-full shadow-sm ${dot}`} />
             </div>
             
-            <div className="mt-3">
-              <div className="text-2xl font-bold font-mono tracking-tight">{timeString}</div>
-              <div className="flex justify-between items-center mt-1">
-                <span className="text-xs font-medium text-foreground/40">{market.city}</span>
-                <span className={`text-[10px] font-bold uppercase tracking-wider ${color}`}>{status}</span>
+            <div className="mt-4">
+              <div className="text-3xl font-black font-mono tracking-tighter tabular-nums text-foreground/90">{timeString}</div>
+              <div className="flex justify-between items-center mt-2 border-t border-foreground/5 pt-2">
+                <span className="text-xs font-bold text-foreground/50">{market.city}</span>
+                <span className={`text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-sm bg-foreground/5 ${color}`}>{status}</span>
               </div>
             </div>
           </div>
