@@ -38,30 +38,33 @@ export default function DashboardPage() {
   ) => {
     const displayData = showAll ? data : data.slice(0, limit);
     return (
-      <section>
-        <div className="flex items-center justify-between mb-10">
-          <div className="flex items-center gap-6 text-foreground flex-1">
-            <h2 className="text-xs font-bold uppercase tracking-[0.3em] opacity-40 whitespace-nowrap">{categoryPrefix} / {title}</h2>
-            <div className="flex-1 h-px bg-current opacity-10"></div>
+      <section className="relative">
+        <div className="flex items-center justify-between mb-8 sticky top-24 z-30 bg-background/80 backdrop-blur-md py-4 -mx-4 px-4 rounded-xl border border-transparent">
+          <div className="flex items-center gap-4 text-foreground flex-1">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-foreground/5 border border-foreground/5 font-bold text-xs text-foreground/60">
+              {categoryPrefix}
+            </div>
+            <h2 className="text-lg font-bold tracking-tight">{title}</h2>
           </div>
           {data.length > limit && (
             <button 
               onClick={() => setShowAll(!showAll)}
-              className="premium-btn premium-btn-secondary text-[10px] uppercase font-bold tracking-widest px-4 py-2 ml-4"
+              className="premium-btn bg-foreground/5 hover:bg-foreground/10 text-[10px] uppercase font-bold tracking-widest px-4 py-2 border border-foreground/5"
             >
-              {showAll ? "Show Less" : "View More Assets"}
+              {showAll ? "Collapse" : "View All"}
             </button>
           )}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {displayData.map((asset: any) => (
-            <TickrCard 
-              key={asset.id || asset.symbol}
-              title={asset.name || asset.symbol}
-              symbol={asset.symbol}
-              value={parseFloat(asset.current_price || asset.price).toLocaleString()}
-              change={parseFloat(asset.price_change_percentage_24h || asset.change)}
-            />
+            <div key={asset.id || asset.symbol} className="h-64">
+              <TickrCard 
+                title={asset.name || asset.symbol}
+                symbol={asset.symbol}
+                value={parseFloat(asset.current_price || asset.price).toLocaleString()}
+                change={parseFloat(asset.price_change_percentage_24h || asset.change)}
+              />
+            </div>
           ))}
         </div>
       </section>
@@ -69,26 +72,35 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex flex-col gap-16 py-8">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-        <div>
-          <h1 className="text-5xl font-bold tracking-tight">Market Terminal</h1>
-          <p className="font-medium text-foreground/40 mt-1 uppercase tracking-[0.2em] text-xs">Top Assets by 24h Trading Volume</p>
+    <div className="flex flex-col gap-12 py-8 relative">
+       {/* Background decoration */}
+       <div className="fixed top-20 right-20 w-96 h-96 bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none -z-10" />
+       <div className="fixed bottom-20 left-20 w-96 h-96 bg-brand-secondary/5 rounded-full blur-[100px] pointer-events-none -z-10" />
+
+      <header className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 pb-8 border-b border-foreground/5">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-6xl font-bold tracking-tighter">Terminal<span className="text-brand-primary">.</span></h1>
+          <p className="font-medium text-foreground/50 text-lg max-w-lg leading-relaxed">
+            Real-time cross-market analysis. Monitoring global assets with millisecond precision.
+          </p>
         </div>
-        <div className="flex items-center gap-4 bg-white/5 border border-white/10 px-4 py-2 rounded-xl backdrop-blur-md">
-           <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Real-time Feed</span>
+        
+        <div className="flex flex-wrap items-center gap-4">
+           <div className="premium-card !p-3 !rounded-xl flex items-center gap-3 bg-background/50">
+              <div className="w-2 h-2 rounded-full bg-brand-primary animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+              <span className="text-xs font-bold uppercase tracking-widest opacity-60">System Operational</span>
            </div>
-           <div className="h-4 w-px bg-white/10" />
-           <span className="text-[10px] font-bold opacity-40">High Volume Focus</span>
+           <div className="premium-card !p-3 !rounded-xl flex items-center gap-3 bg-background/50">
+              <span className="text-xs font-bold opacity-40">UTC</span>
+              <span className="text-xs font-mono font-bold">{new Date().toISOString().split('T')[0]}</span>
+           </div>
         </div>
       </header>
 
-      <div className="space-y-24">
-        {renderSection("Most Active Crypto", cryptoData, 3, showAllCrypto, setShowAllCrypto, "01")}
-        {renderSection("Active US Markets", usStocks, 3, showAllUS, setShowAllUS, "02")}
-        {renderSection("IDX Volume Leaders", indoStocks, 3, showAllIndo, setShowAllIndo, "03")}
+      <div className="space-y-20">
+        {renderSection("Cryptocurrency Assets", cryptoData, 4, showAllCrypto, setShowAllCrypto, "01")}
+        {renderSection("US Equity Markets", usStocks, 4, showAllUS, setShowAllUS, "02")}
+        {renderSection("IDX Local Markets", indoStocks, 4, showAllIndo, setShowAllIndo, "03")}
       </div>
     </div>
   );

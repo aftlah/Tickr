@@ -14,66 +14,70 @@ const data = [
 
 export default function AssetChart({ symbol }: { symbol: string }) {
   return (
-    <div className="h-[450px] w-full premium-card bg-background/50 p-8">
-      <div className="flex justify-between items-center mb-10">
+    <div className="h-[450px] w-full premium-card p-8 flex flex-col">
+      <div className="flex justify-between items-start mb-8">
         <div>
-          <h3 className="text-xl font-bold">{symbol} History</h3>
-          <p className="text-xs font-medium text-foreground/40 mt-0.5">Price action relative to USD</p>
+          <h3 className="text-2xl font-bold tracking-tight">{symbol} Price Action</h3>
+          <p className="text-xs font-medium text-foreground/40 mt-1 uppercase tracking-widest">Real-time Market Data</p>
         </div>
-        <div className="flex gap-2">
-          {['1D', '1W', '1M', '1Y'].map((t) => (
-             <button key={t} className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border border-white/5 ${t === '1D' ? 'bg-brand-primary text-white' : 'bg-white/5 opacity-50'}`}>
+        <div className="flex gap-1 bg-foreground/5 p-1 rounded-xl border border-foreground/5">
+          {['1D', '1W', '1M', '1Y', 'ALL'].map((t) => (
+             <button key={t} className={`text-[10px] font-bold px-4 py-2 rounded-lg transition-all ${t === '1D' ? 'bg-background shadow-sm text-foreground' : 'text-foreground/40 hover:text-foreground hover:bg-foreground/5'}`}>
                 {t}
              </button>
           ))}
         </div>
       </div>
 
-      <ResponsiveContainer width="100%" height="75%">
-        <AreaChart data={data}>
-          <defs>
-            <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
-              <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
-            </linearGradient>
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.05} vertical={false} />
-          <XAxis 
-            dataKey="name" 
-            stroke="currentColor" 
-            opacity={0.3}
-            fontSize={10}
-            fontWeight={600}
-            axisLine={false}
-            tickLine={false}
-            dy={10}
-          />
-          <YAxis 
-            hide
-          />
-          <Tooltip 
-            contentStyle={{ 
-              backgroundColor: 'rgba(2, 6, 23, 0.8)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '12px',
-              padding: '12px',
-              boxShadow: '0 10px 15px -3px rgba(0,0,0,0.5)',
-              fontSize: '12px',
-              fontWeight: '600'
-            }} 
-            itemStyle={{ color: '#10B981' }}
-          />
-          <Area 
-            type="monotone" 
-            dataKey="price" 
-            stroke="#10B981" 
-            strokeWidth={3} 
-            fillOpacity={1} 
-            fill="url(#colorPrice)" 
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      <div className="flex-1 w-full min-h-0">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+            <defs>
+              <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="var(--color-brand-primary)" stopOpacity={0.2}/>
+                <stop offset="95%" stopColor="var(--color-brand-primary)" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.05} vertical={false} />
+            <XAxis 
+              dataKey="name" 
+              stroke="currentColor" 
+              opacity={0.3}
+              fontSize={10}
+              fontWeight={600}
+              axisLine={false}
+              tickLine={false}
+              dy={10}
+            />
+            <YAxis 
+              hide
+            />
+            <Tooltip 
+              contentStyle={{ 
+                backgroundColor: 'rgba(var(--background), 0.8)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '12px',
+                padding: '12px 16px',
+                boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+                fontSize: '12px',
+                fontWeight: '600',
+                color: 'var(--foreground)'
+              }} 
+              itemStyle={{ color: 'var(--color-brand-primary)' }}
+              cursor={{ stroke: 'var(--foreground)', strokeWidth: 1, strokeDasharray: '4 4', opacity: 0.2 }}
+            />
+            <Area 
+              type="monotone" 
+              dataKey="price" 
+              stroke="var(--color-brand-primary)" 
+              strokeWidth={3} 
+              fillOpacity={1} 
+              fill="url(#colorPrice)" 
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
